@@ -54,55 +54,56 @@ command prompt
 5) Execute the following commands to install IIS Features. To reduce
 time installing each feature then you can include the parameter IncludeAllSubfeature 
 
-```
- Install-WindowsFeature -name Web-Server -IncludeManagementTools 
- Install-WindowsFeature -name Web-Common-Http -IncludeAllSubfeature 
- Install-WindowsFeature -name Web-Health -IncludeAllSubFeature 
- Install-WindowsFeature -name Web-Performance -IncludeAllSubFeature
- Install-WindowsFeature -name Web-Security -IncludeAllSubFeature 
- Install-WindowsFeature -name Web-Mgmt-Tools -IncludeAllSubFeature 
- Install-WindowsFeature -name Web-Scripting-Tools -IncludeAllSubFeature 
- Install-WindowsFeature -name Web-App-Dev -IncludeAllSubFeature
-```
+    ```
+     Install-WindowsFeature -name Web-Server -IncludeManagementTools 
+     Install-WindowsFeature -name Web-Common-Http -IncludeAllSubfeature 
+     Install-WindowsFeature -name Web-Health -IncludeAllSubFeature 
+     Install-WindowsFeature -name Web-Performance -IncludeAllSubFeature
+     Install-WindowsFeature -name Web-Security -IncludeAllSubFeature 
+     Install-WindowsFeature -name Web-Mgmt-Tools -IncludeAllSubFeature 
+     Install-WindowsFeature -name Web-Scripting-Tools -IncludeAllSubFeature 
+     Install-WindowsFeature -name Web-App-Dev -IncludeAllSubFeature
+    ```
 
-    TIP: These features can vary according to what do you want to install.
-    If you want to install each feature individually then execute the 
-    command Get-WindowsFeature and use the column Name (not display name)
+TIP: These features can vary according to what do you want to install.
+If you want to install each feature individually then execute the 
+command Get-WindowsFeature and use the column Name (not display name)
 
 6) Change the value of Registry Key. This step allow to connect remotely via IIS Management Console via HOST
 
         New-ItemProperty -Path HKLM:\software\microsoft\WebManagement\Server -name EnableRemoteManagement -Value 1 -Force
 
 7) Create a local user inside the container. This user will be used to connect remotely via IIS Management Console. On this example we will create a local user called FabioH with the password Pa$$w0rd and we will include on local administrators group. This step is very important because the user created will be available only inside this Container (if you check on your HOST you cannot see this user)
-```
+    ```
     net user FabioH Pa$$w0rd /add
     net localgroup administrators fabioh /add
-```
+    ```
 
 8) Stop IIS services
-```
+    ```
     net stop iisadmin
     net stop w3svc
     net stop wmsvc
-```
+    ```
 
 9) Start IIS services
-```
+    ```
     net start iisadmin
     net start w3svc
     net start wmsvc
-```
+    ```
+
 10) Exit from container. The first command will exit from PowerShell and the second command will exit from CMD Prompt, returning to console on HOST.
-```
+    ```
     exit
     exit
-```
+    ```
 
 11) Stop the container and commit changes to a new image with the name web-image1.
-```
+    ```
     docker stop web-01
     docker commit web-01 web-image1
-```
+    ```
 
 12) Remove the container stopped
 
@@ -193,10 +194,10 @@ After the creation of the image then we can start creating the container and upd
             cscript WindowsUpdate.vbs
 
 9) After you finish these settings then you can create a new image
-```
+    ```
     docker stop web-01
     docker commit web-01 web-image2
-```
+    ```
 
 10. Check if the new image was created
 
