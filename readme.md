@@ -7,7 +7,7 @@ Framework 2.0, 3.5, etc. You can use this document to migrate your Web Site
 running on Windows Server 2008/2012/2016 to Windows Containers on
 Windows Server 2016 with Docker. Also this document can be used to validate the migration to Windows Container.
 
-The steps listed on this documentation were developed with Rodrigo Immaginario (Microsoft Regional Director and MVP)
+The steps listed on this documentation were developed in conjunction with Rodrigo Immaginario (Microsoft Regional Director and MVP)
 
 Requirements:
 -------------
