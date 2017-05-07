@@ -241,18 +241,11 @@ RUN New-ItemProperty -Path HKLM:\software\microsoft\WebManagement\Server \
 RUN net user fabioh Pa$$w0rd /add ; \
     net localgroup administrators fabioh /add
 
-# Stop IIS Services
-RUN net stop iisadmin ; \
-    net stop w3svc ; \
-    net stop wmsvc
-
-# Start IIS Services
-RUN net start iisadmin ; \
-    net start w3svc ; \
-    net start wmsvc
+# Restart IIS Services
+RUN Restart-Service iisadmin,w3svc,wmsvc
 
 # Download and install URL Rewrite
-RUN New-item c:\teste ; \
+RUN New-item c:\teste -ItemType "directory" ; \
     Invoke-WebRequest https://download.microsoft.com/download/C/9/E/C9E8180D-4E51-40A6-A9BF-776990D8BCA9/rewrite_amd64.msi \
         -OutFile C:\teste\rewrite_amd64.msi ; \
     msiexec.exe /i c:\teste\rewrite_amd64.msi /passive /rd /s /q c:\install
