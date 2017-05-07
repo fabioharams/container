@@ -3,19 +3,22 @@
 # This image will depend of windowsservercore
 FROM microsoft/dotnet-framework:3.5
 
+# Replace default shell executed in Dockerfile to Powershell
+SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
+
 # Execute the commands to install IIS Features
-RUN powershell.exe Install-WindowsFeature -name Web-Server -IncludeManagementTools 
-RUN powershell.exe Install-WindowsFeature -Name Web-Common-Http -IncludeAllSubFeature 
-RUN powershell.exe Install-WindowsFeature -name Web-Health -IncludeAllSubFeature 
-RUN powershell.exe Install-WindowsFeature -name Web-Health -IncludeAllSubFeature 
-RUN powershell.exe Install-WindowsFeature -Name Web-Performance -IncludeAllSubFeature 
-RUN powershell.exe Install-WindowsFeature -name Web-Security -IncludeAllSubFeature 
-RUN powershell.exe Install-WindowsFeature -name Web-Mgmt-Tools -IncludeAllSubFeature 
-RUN powershell.exe Install-WindowsFeature -name Web-Scripting-Tools -IncludeAllSubFeature 
-RUN powershell.exe Install-WindowsFeature -name Web-App-Dev -IncludeAllSubFeature
+RUN Install-WindowsFeature -name Web-Server -IncludeManagementTools 
+RUN Install-WindowsFeature -Name Web-Common-Http -IncludeAllSubFeature 
+RUN Install-WindowsFeature -name Web-Health -IncludeAllSubFeature 
+RUN Install-WindowsFeature -name Web-Health -IncludeAllSubFeature 
+RUN Install-WindowsFeature -Name Web-Performance -IncludeAllSubFeature 
+RUN Install-WindowsFeature -name Web-Security -IncludeAllSubFeature 
+RUN Install-WindowsFeature -name Web-Mgmt-Tools -IncludeAllSubFeature 
+RUN Install-WindowsFeature -name Web-Scripting-Tools -IncludeAllSubFeature 
+RUN Install-WindowsFeature -name Web-App-Dev -IncludeAllSubFeature
 
 # Enable Registry Key to allow IIS Remote Management
-RUN powershell.exe New-ItemProperty -Path HKLM:\software\microsoft\WebManagement\Server -Name EnableRemoteManagement -Value 1 -Force
+RUN New-ItemProperty -Path HKLM:\software\microsoft\WebManagement\Server -Name EnableRemoteManagement -Value 1 -Force
 
 # Create local user and include on local administrators group
 RUN net user fabioh Pa$$w0rd /add 
@@ -32,8 +35,8 @@ RUN net start w3svc
 RUN net start wmsvc
 
 # Download and install URL Rewrite
-RUN Powershell.exe New-item c:\teste 
-RUN Powershell.exe Invoke-WebRequest https://download.microsoft.com/download/C/9/E/C9E8180D-4E51-40A6-A9BF-776990D8BCA9/rewrite_amd64.msi -OutFile C:\teste\rewrite_amd64.msi 
+RUN New-item c:\teste 
+RUN Invoke-WebRequest https://download.microsoft.com/download/C/9/E/C9E8180D-4E51-40A6-A9BF-776990D8BCA9/rewrite_amd64.msi -OutFile C:\teste\rewrite_amd64.msi 
 RUN msiexec.exe /i c:\teste\rewrite_amd64.msi /passive /rd /s /q c:\install
 
 # Copy PFX file (located on HOST on C:\PFX) to comtainer and install
