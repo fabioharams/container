@@ -1,4 +1,6 @@
-# Inform image from Docker Hub. This image bellow has .Net Framework 3.5 (and 2.0). If you want to use only .Net Framework 4.6 then use the option 4.6 in the end of the command. This image will depend of windowsservercore
+# Inform image from Docker Hub. This image bellow has .Net Framework 3.5 (and 2.0). 
+# If you want to use only .Net Framework 4.6 then use the option 4.6 in the end of the command. 
+# This image will depend of windowsservercore
 FROM microsoft/dotnet-framework:3.5
 
 # Execute the commands to install IIS Features
@@ -38,7 +40,11 @@ RUN msiexec.exe /i c:\teste\rewrite_amd64.msi /passive /rd /s /q c:\install
 ADD c:\teste\certificado.pfx c:\teste\certificado.pfx 
 RUN certutil -importpfx -p "123456" "c:\teste\certificado.pfx"
 
-# Optional - enable Windows Update on container, You can use the script from MSDN and with the name windowsupdate.vbs. This step is not required because when you execute the command ===docker run=== then a new version is checked from Docker Hub. Remove the comment if you want to use these commands
+# Optional - enable Windows Update on container, 
+# You can use the script from MSDN and with the name windowsupdate.vbs. 
+# This step is not required because when you execute the command ===docker run=== 
+# then a new version is checked from Docker Hub. 
+# Remove the comment if you want to use these commands
 
 # RUN Set-Service wuauserv -startupType automatic 
 # RUN net start wuauserv ADD c:\teste\windowsupdate.vbs c:\teste\windowsupdate.vbs RUN cscript WindowsUpdate.vbs
