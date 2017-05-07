@@ -31,7 +31,7 @@ Step 1: Prepare the container image
 1) Open PowerShell and execute the following command to download the
 base image: 
 
-        docker pull windowsservercore
+        docker pull microsoft/windowsservercore
 
     It's very important to use the latest image from Docker Hub because the update KB4015217 is applied. 
 
