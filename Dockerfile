@@ -7,37 +7,39 @@ FROM microsoft/dotnet-framework:3.5
 SHELL ["powershell", "-Command", "$ErrorActionPreference = 'Stop'; $ProgressPreference = 'SilentlyContinue';"]
 
 # Execute the commands to install IIS Features
-RUN Install-WindowsFeature -name Web-Server -IncludeManagementTools 
-RUN Install-WindowsFeature -Name Web-Common-Http -IncludeAllSubFeature 
-RUN Install-WindowsFeature -name Web-Health -IncludeAllSubFeature 
-RUN Install-WindowsFeature -name Web-Health -IncludeAllSubFeature 
-RUN Install-WindowsFeature -Name Web-Performance -IncludeAllSubFeature 
-RUN Install-WindowsFeature -name Web-Security -IncludeAllSubFeature 
-RUN Install-WindowsFeature -name Web-Mgmt-Tools -IncludeAllSubFeature 
-RUN Install-WindowsFeature -name Web-Scripting-Tools -IncludeAllSubFeature 
-RUN Install-WindowsFeature -name Web-App-Dev -IncludeAllSubFeature
+RUN Install-WindowsFeature -name Web-Server -IncludeManagementTools ; \
+    Install-WindowsFeature -Name Web-Common-Http -IncludeAllSubFeature ; \
+    Install-WindowsFeature -name Web-Health -IncludeAllSubFeature ; \
+    Install-WindowsFeature -name Web-Health -IncludeAllSubFeature ; \
+    Install-WindowsFeature -Name Web-Performance -IncludeAllSubFeature ; \
+    Install-WindowsFeature -name Web-Security -IncludeAllSubFeature ; \
+    Install-WindowsFeature -name Web-Mgmt-Tools -IncludeAllSubFeature ; \
+    Install-WindowsFeature -name Web-Scripting-Tools -IncludeAllSubFeature ; \
+    Install-WindowsFeature -name Web-App-Dev -IncludeAllSubFeature
 
 # Enable Registry Key to allow IIS Remote Management
-RUN New-ItemProperty -Path HKLM:\software\microsoft\WebManagement\Server -Name EnableRemoteManagement -Value 1 -Force
+RUN New-ItemProperty -Path HKLM:\software\microsoft\WebManagement\Server \
+        -Name EnableRemoteManagement -Value 1 -Force
 
 # Create local user and include on local administrators group
-RUN net user fabioh Pa$$w0rd /add 
-RUN net localgroup administrators fabioh /add
+RUN net user fabioh Pa$$w0rd /add ; \
+    net localgroup administrators fabioh /add
 
 # Stop IIS Services
-RUN net stop iisadmin 
-RUN net stop w3svc 
-RUN net stop wmsvc
+RUN net stop iisadmin ; \
+    net stop w3svc ; \
+    net stop wmsvc
 
 # Start IIS Services
-RUN net start iisadmin 
-RUN net start w3svc 
-RUN net start wmsvc
+RUN net start iisadmin ; \
+    net start w3svc ; \
+    net start wmsvc
 
 # Download and install URL Rewrite
-RUN New-item c:\teste 
-RUN Invoke-WebRequest https://download.microsoft.com/download/C/9/E/C9E8180D-4E51-40A6-A9BF-776990D8BCA9/rewrite_amd64.msi -OutFile C:\teste\rewrite_amd64.msi 
-RUN msiexec.exe /i c:\teste\rewrite_amd64.msi /passive /rd /s /q c:\install
+RUN New-item c:\teste ; \
+    Invoke-WebRequest https://download.microsoft.com/download/C/9/E/C9E8180D-4E51-40A6-A9BF-776990D8BCA9/rewrite_amd64.msi \
+        -OutFile C:\teste\rewrite_amd64.msi ; \
+    msiexec.exe /i c:\teste\rewrite_amd64.msi /passive /rd /s /q c:\install
 
 # Copy PFX file (located on HOST on C:\PFX) to comtainer and install
 ADD c:\teste\certificado.pfx c:\teste\certificado.pfx 
