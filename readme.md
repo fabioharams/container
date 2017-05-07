@@ -250,7 +250,7 @@ RUN New-item c:\teste -ItemType "directory" ; \
         -OutFile C:\teste\rewrite_amd64.msi ; \
     msiexec.exe /i c:\teste\rewrite_amd64.msi /passive /rd /s /q c:\install
 
-# Copy PFX file (located on HOST on C:\PFX) to comtainer and install
+# Copy PFX file (located on HOST on C:\teste) to container and install
 ADD "c:\teste\certificado.pfx" "c:\teste\certificado.pfx"
 RUN certutil -importpfx -p "123456" "c:\teste\certificado.pfx"
 
