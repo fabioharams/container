@@ -120,7 +120,7 @@ After the creation of the image then we can start creating the container and upd
 
 1) Create new container using image generated previously, binding ports 80 + 443 and mapping Shared Folder on HOST
 
-        docker run -it --name web-02 -v c:\shared:c:\shared -p 80:80 443:443 web-image1
+        docker run -it --name web-02 -v c:\shared:c:\shared -p 80:80 -p 443:443 web-image1
 
 2) Verify the IP Address assigned to container
 
