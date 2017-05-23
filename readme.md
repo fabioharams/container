@@ -31,7 +31,7 @@ Step 1: Prepare the container image
 1) Open PowerShell and execute the following command to download the
 base image: 
 
-        docker pull windowsservercore
+        docker pull microsoft/windowsservercore
 
     It's very important to use the latest image from Docker Hub because the update KB4015217 is applied. 
 
@@ -41,7 +41,7 @@ an image with .Net Framework 3.5 from Docker Hub) with the name web-01,
 map the local folder (C:\\SHARED) on HOST to container and will open a
 command prompt 
 
-        docker run -it --name web-01 -v c:\\shared:c:\\shared microsoft/dotnet-framework:3.5
+        docker run -it --name web-01 -v c:\shared:c:\shared microsoft/dotnet-framework:3.5
 
 3) Using the command prompt opened by the previous command then execute PowerShell: 
 
@@ -120,7 +120,7 @@ After the creation of the image then we can start creating the container and upd
 
 1) Create new container using image generated previously, binding ports 80 + 443 and mapping Shared Folder on HOST
 
-        docker run -it --name web-02 -v c:\shared:c:\shared -p 80:80 443:443 web-image1
+        docker run -it --name web-02 -v c:\shared:c:\shared -p 80:80 -p 443:443 web-image1
 
 2) Verify the IP Address assigned to container
 
